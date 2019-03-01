@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class PacmanGridTesting {
-	public static void main(String[] args) {  
+	public static void main(String[] args) {
 		// Google Chrome version 72
 		System.setProperty("webdriver.chrome.driver","resources/selenium-java-3.6.0/chromedriver.exe");
 		WebDriver cd = new ChromeDriver();
@@ -33,9 +33,13 @@ public class PacmanGridTesting {
 		txtInput.clear();
 		testSuccessfulCase8(txtInput, btnRun, txtResult);
 		txtInput.clear();
+		testSuccessfulCase9(txtInput, btnRun, txtResult);
+		txtInput.clear();
 		
 		// Run tests that should capture user input errors
 		testFailedTypo(txtInput, btnRun, txtResult);	
+		txtInput.clear();
+		testFailedNotACommand(txtInput, btnRun, txtResult);
 		txtInput.clear();
 		testFailedTooManyWords(txtInput, btnRun, txtResult);
 		txtInput.clear();
@@ -120,13 +124,31 @@ public class PacmanGridTesting {
 		System.out.println(txtResult.getAttribute("value"));
 	}
 	
+	// Test for successful case with lowercase letters and mix between lowercase and uppercase letters.
+	// The program will convert all letters to uppercase, so this is not a problem.
+	public static void testSuccessfulCase9(WebElement txtInput, WebElement btnRun, WebElement txtResult) {
+		txtInput.sendKeys("PlaCE 2,2,east\n\nMoVe\n\nMovE\n\nREpoRt\n\nMOVE"
+							+ "\n\nrEPoRT\n\nLEFT\n\nMOVE\n\nREPORT");
+		btnRun.click();
+		System.out.println("Test Successful Case 9 Result:");
+		System.out.println(txtResult.getAttribute("value"));
+	}
+	
 	// Test for failed case with "MOVED" instead of "MOVE"
 	public static void testFailedTypo(WebElement txtInput, WebElement btnRun, WebElement txtResult) {
-		txtInput.sendKeys("place 1,1,east\nMoved\nReport");
+		txtInput.sendKeys("place 1,1,east\n\nMoved\nReport");
 		btnRun.click();
 		System.out.println("Test Failed Typo Result:");
 		System.out.println(txtResult.getAttribute("value"));
 	}
+	
+	// Test for failed case with a word that's not part of the command
+		public static void testFailedNotACommand(WebElement txtInput, WebElement btnRun, WebElement txtResult) {
+			txtInput.sendKeys("place 1,1,east\n\nMoVE\n\nRUN\nReport");
+			btnRun.click();
+			System.out.println("Test Failed Not A Command Result:");
+			System.out.println(txtResult.getAttribute("value"));
+		}
 	
 	// Test for failed case with "MOVE" repeated 3 times instead of just once
 	public static void testFailedTooManyWords(WebElement txtInput, WebElement btnRun, WebElement txtResult) {
