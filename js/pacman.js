@@ -33,41 +33,46 @@ function pacman_command() {
 		command_individual = command_per_line[line].trim().split(" ");
 		
 		if (command_individual.length == 1) {
-			if (command_individual[0] == "MOVE") {
-				// Move Pacman towards its current facing direction
-				var move_result = move(x, y, facingDirection);
-				var move_result_split = move_result.split(",");
-				x = move_result_split[0];
-				y = move_result_split[1];
-				var move_result_valid = move_result_split[2];
-				if (move_result_valid == "INVALID") {
-					result += "Invalid move at line " + (line+1) + ": new position must be between (0,0) and (4,4)\n";
+			if (x != -1 && y != -1) {
+				if (command_individual[0] == "MOVE") {
+					// Move Pacman towards its current facing direction
+					var move_result = move(x, y, facingDirection);
+					var move_result_split = move_result.split(",");
+					x = move_result_split[0];
+					y = move_result_split[1];
+					var move_result_valid = move_result_split[2];
+					if (move_result_valid == "INVALID") {
+						result += "Invalid move at line " + (line+1) + ": Pacman's position must be between (0,0) and (4,4)\n";
+					}
+				} else if (command_individual[0] == "LEFT" || command_individual[0] == "RIGHT") {
+					facingDirection = turn(facingDirection, command_individual[0]);								
+				} else if (command_individual[0] == "REPORT") {
+					// Display the latest Pacman position and facing direction to the user
+					result += "Output: " + x + ", " + y + ", " + facingDirection + "\n";
+				} else if (command_individual[0] != "") {
+					checkInput = false;
 				}
-			} else if (command_individual[0] == "LEFT" || command_individual[0] == "RIGHT") {
-				facingDirection = turn(facingDirection, command_individual[0]);								
-			} else if (command_individual[0] == "REPORT") {
-				// Display the latest Pacman position and facing direction to the user
-				result += "Output: " + x + ", " + y + ", " + facingDirection + "\n";
-			} else if (command_individual[0] != "") {
-				checkInput = false;
 			}
-		} else if (command_individual.length == 2) {
-			
-			if (command_individual[0] == "PLACE" && x == -1) {
-				command_place = command_individual[1].split(",");		
+		} else if (command_individual.length == 2) {			
+			if (command_individual[0] == "PLACE") {
+				command_place = command_individual[1].split(",");
 				
 				if (command_place.length == 3) {
-					var xInit = command_place[0];
-					var yInit = command_place[1];
-					var facingDirectionInit = command_place[2];					
-					var initialPositionString = place(xInit, yInit, facingDirectionInit);					
-					var initialPosition = initialPositionString.split(",");
-					if (initialPosition[0] == -1) {
-						checkInput = false;
+					var xInit = command_place[0].trim();
+					var yInit = command_place[1].trim();
+					var facingDirectionInit = command_place[2].trim();
+					if (!isNaN(xInit) && !isNaN(yInit)) {
+						var initialPositionString = place(xInit, yInit, facingDirectionInit);					
+						var initialPosition = initialPositionString.split(",");
+						if (initialPosition[0] == -1) {
+							checkInput = false;
+						} else {
+							x = initialPosition[0];
+							y = initialPosition[1];
+							facingDirection = initialPosition[2];
+						}
 					} else {
-						x = initialPosition[0];
-						y = initialPosition[1];
-						facingDirection = initialPosition[2];
+						checkInput = false;
 					}					
 				} else {
 					checkInput = false;
@@ -80,11 +85,11 @@ function pacman_command() {
 		}
 		
 		if (!checkInput) {
-			if (x == -1 || y == -1 || facingDirection == "INVALID") {
+			if (command_individual[0] == "PLACE") {
 				result = "Command error at line " + (line+1) + ": Pacman must be placed within (0,0) to (4,4)" +
-						 " and Pacman must face NORTH, EAST, SOUTH, or WEST";
+						 " and Pacman must face NORTH, EAST, SOUTH, or WEST\n";
 			} else {
-				result = "Command not recognised at line " + (line+1);
+				result = "Command not recognised at line " + (line+1) + "\n";
 			}			
 			line = command_per_line.length;
 		}
