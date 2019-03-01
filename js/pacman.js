@@ -21,6 +21,7 @@ function pacman_command() {
 	var checkInput = true;
 	// Variable to retrieve commands from index.html
 	var commands = document.getElementById("commands").value.toUpperCase();
+	// Store each line of command in "command_per_line" array
 	command_per_line = commands.split("\n");
 	
 	/*	
@@ -28,21 +29,27 @@ function pacman_command() {
 	The only acceptable size for each line is 1 word ("MOVE", "LEFT", "RIGHT", or "REPORT")
 	or 2 words for "PLACE X,Y,F"
 	*/	
-	for (line = 0; line < command_per_line.length; line++) {		
-		command_individual = command_per_line[line].split(" ");
+	for (line = 0; line < command_per_line.length; line++) {	
+		command_individual = command_per_line[line].trim().split(" ");
 		
-		if (command_individual.length == 1) {		
+		if (command_individual.length == 1) {
 			if (command_individual[0] == "MOVE") {
+				// Move Pacman towards its current facing direction
 				var move_result = move(x, y, facingDirection);
 				var move_result_split = move_result.split(",");
 				x = move_result_split[0];
-				y = move_result_split[1];				
-		} else if (command_individual[0] == "LEFT" || command_individual[0] == "RIGHT") {
-				facingDirection = turn(facingDirection, command_individual[0]);
-								
+				y = move_result_split[1];
+				var move_result_valid = move_result_split[2];
+				if (move_result_valid == "INVALID") {
+					result += "Invalid move at line " + (line+1) + ": new position must be between (0,0) and (4,4)\n";
+				}
+			} else if (command_individual[0] == "LEFT" || command_individual[0] == "RIGHT") {
+				facingDirection = turn(facingDirection, command_individual[0]);								
 			} else if (command_individual[0] == "REPORT") {
 				// Display the latest Pacman position and facing direction to the user
 				result += "Output: " + x + ", " + y + ", " + facingDirection + "\n";
+			} else if (command_individual[0] != "") {
+				checkInput = false;
 			}
 		} else if (command_individual.length == 2) {
 			
@@ -52,10 +59,8 @@ function pacman_command() {
 				if (command_place.length == 3) {
 					var xInit = command_place[0];
 					var yInit = command_place[1];
-					var facingDirectionInit = command_place[2];
-					
-					var initialPositionString = place(xInit, yInit, facingDirectionInit);
-					
+					var facingDirectionInit = command_place[2];					
+					var initialPositionString = place(xInit, yInit, facingDirectionInit);					
 					var initialPosition = initialPositionString.split(",");
 					if (initialPosition[0] == -1) {
 						checkInput = false;
@@ -64,22 +69,27 @@ function pacman_command() {
 						y = initialPosition[1];
 						facingDirection = initialPosition[2];
 					}					
-				}				
-			}			
+				} else {
+					checkInput = false;
+				}		
+			} else {
+				checkInput = false;
+			}	
+		} else {
+			checkInput = false;
 		}
 		
 		if (!checkInput) {
-			if (x == -1 || y == -1) {
-				result = "Command error at line " + (line+1) + ": Pacman must be placed within (0,0) to (4,4)";
+			if (x == -1 || y == -1 || facingDirection == "INVALID") {
+				result = "Command error at line " + (line+1) + ": Pacman must be placed within (0,0) to (4,4)" +
+						 " and Pacman must face NORTH, EAST, SOUTH, or WEST";
 			} else {
 				result = "Command not recognised at line " + (line+1);
 			}			
 			line = command_per_line.length;
 		}
-	}
-	
-	document.getElementById("result").value = result;
-	
+	}	
+	document.getElementById("result").value = result;	
 }
 
 // Function to set initial position for Pacman on the grid
@@ -113,6 +123,7 @@ function checkFacingDirection(input) {
 
 // Function to move Pacman according to their facing direction
 function move(x, y, facingDirection) {
+	var checkValid = "VALID";
 	var xStart = Number(x), yStart = Number(y);
 	// Pacman will move towards north 1 spot
 	if (facingDirection == "NORTH") {
@@ -134,12 +145,14 @@ function move(x, y, facingDirection) {
 	// If Pacman moves outside the boundaries, they will be put back to their previous position
 	if (Number(x) < 0 || Number(x) > 4) {
 		x = xStart;
+		checkValid = "INVALID";
 	}
 	if (Number(y) < 0 || Number(y) > 4) {
 		y = yStart;
+		checkValid = "INVALID";
 	}	
 	
-	var result = x + "," + y;
+	var result = x + "," + y + "," + checkValid;
 	// Return new position or previous position if the move is invalid
 	return result;	
 }
