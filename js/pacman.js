@@ -36,10 +36,13 @@ function pacman_command() {
 				var move_result = move(x, y, facingDirection);
 				var move_result_split = move_result.split(",");
 				x = move_result_split[0];
-				y = move_result_split[1];
-				result += x + ", " + y + ", " + facingDirection + "\n";	
+				y = move_result_split[1];				
+		} else if (command_individual[0] == "LEFT" || command_individual[0] == "RIGHT") {
+				facingDirection = turn(facingDirection, command_individual[0]);
+								
 			} else if (command_individual[0] == "REPORT") {
-				
+				// Display the latest Pacman position and facing direction to the user
+				result += "Output: " + x + ", " + y + ", " + facingDirection + "\n";
 			}
 		} else if (command_individual.length == 2) {
 			
@@ -60,8 +63,6 @@ function pacman_command() {
 						x = initialPosition[0];
 						y = initialPosition[1];
 						facingDirection = initialPosition[2];
-						
-						result += x + ", " + y + ", " + facingDirection + "\n";						
 					}					
 				}				
 			}			
@@ -110,27 +111,60 @@ function checkFacingDirection(input) {
 	return result;
 }
 
+// Function to move Pacman according to their facing direction
 function move(x, y, facingDirection) {
 	var xStart = Number(x), yStart = Number(y);
+	// Pacman will move towards north 1 spot
 	if (facingDirection == "NORTH") {
 		y = Number(y) + 1;
-	} else if (facingDirection == "EAST") {
+	}
+	// Pacman will move towards east 1 spot
+	else if (facingDirection == "EAST") {
 		x = Number(x) + 1;
-	} else if (facingDirection == "SOUTH") {
+	}
+	// Pacman will move towards south 1 spot
+	else if (facingDirection == "SOUTH") {
 		y = Number(y) - 1;
-	} else if (facingDirection == "WEST") {
+	}
+	// Pacman will move towards west 1 spot
+	else if (facingDirection == "WEST") {
 		x = Number(x) - 1;
 	}
 	
+	// If Pacman moves outside the boundaries, they will be put back to their previous position
 	if (Number(x) < 0 || Number(x) > 4) {
 		x = xStart;
 	}
 	if (Number(y) < 0 || Number(y) > 4) {
 		y = yStart;
-	}
+	}	
 	
 	var result = x + "," + y;
-	
-	return result;
-	
+	// Return new position or previous position if the move is invalid
+	return result;	
+}
+
+// Function to turn Pacman's facing direction to the left or right
+function turn(facingDirection, turnDirection) {
+	var currentDirection = facingDirection, currentDirectionIndex = -1;
+	for (faceDirLength = 0; faceDirLength < directions.length; faceDirLength++) {
+		// If direction entered by the user is included in "directions" array, then input is valid
+		if (currentDirection == directions[faceDirLength]) {
+			currentDirectionIndex = faceDirLength;
+			if (turnDirection == "LEFT") {
+				currentDirectionIndex -= 1;
+			} else if (turnDirection == "RIGHT") {
+				currentDirectionIndex += 1;
+			}
+			
+			if (currentDirectionIndex < 0) {
+				currentDirectionIndex = 3;
+			} else if (currentDirectionIndex > 3) {
+				currentDirectionIndex = 0;
+			}
+			currentDirection = directions[currentDirectionIndex];			
+			faceDirLength = directions.length;
+		}
+	}
+	return currentDirection;
 }
