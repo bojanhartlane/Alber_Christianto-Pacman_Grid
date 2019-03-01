@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <title>IE Digital Code Challenge</title>
+</head>
+<body>
+
+<nav class="navbar bg-dark navbar-dark navbar-expand-sm">
+  <div class="container">
+	  <a class="navbar-brand d-none d-sm-inline-block" href="#">
+		Pacman Simulator
+	  </a>      
+	  <span class="navbar-text d-none d-lg-inline">IE Digital Code Challenge 1</span>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="form-group">
+		
+		<h3>Insert Commands Here:</h3>
+		<textarea class="form-control mb-3" rows="5" id="commands" placeholder="Your commands here"></textarea>
+		<button class="btn-lg btn-primary mb-3" type="submit" onclick="pacman_command()">Run</button>
+		
+		<h3>Result:</h3>
+		<textarea class="form-control mb-3" rows="5" id="result" placeholder="Result"></textarea>
+		
+    </div>
+  </div><!-- row -->
+</div><!-- content container -->
+
+<script src="js/pacman.js"></script>
+<script src="js/jquery.slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
