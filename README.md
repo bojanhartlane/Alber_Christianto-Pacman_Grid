@@ -7,7 +7,8 @@ Developer's Note:
 
 - The application code is written in JavaScript and HTML.
 - Bootstrap is used for the website front-end.
-- Unit testing for the application is done by using Selenium and the test code is written in Java.
+- Unit testing for the application is done by using Selenium. The test code is written in Java.
+- Unit testing was conducted in Eclipse Oxygen IDE.
 - Chrome Driver was used for the Selenium testing. This particular version of Chrome Driver is optimised for unit testing in Google Chrome version 72.x.
 - The testing was conducted on Google Chrome version 72.0.3626.119.
 - Test data can be found in "Test Cases" folder. It has 10 successful test cases and 6 failed test cases, which will return errors about the sequence.
