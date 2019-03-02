@@ -12,7 +12,7 @@ Developer's Note:
 - Chrome Driver was used for the Selenium testing. This particular version of Chrome Driver is optimised for unit testing in Google Chrome version 72.x.
 - The testing was conducted on Google Chrome version 72.0.3626.119.
 - A video of the unit testing can be found in "Testing Documentation" folder.
-- Test data can be found in "Test Cases" folder. It has 10 successful test cases and 6 failed test cases, which will return errors about the sequence.
+- Test data can be found in "Test Cases" folder. It has 10 successful test cases and 6 failed test cases.
 - For this application, user must enter their input using the text area provided. Copying and pasting input from the provided test cases to the text area is allowed.
 
 -----------
