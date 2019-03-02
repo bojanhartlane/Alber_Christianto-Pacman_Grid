@@ -1,6 +1,8 @@
 # Alber_Christianto-Pacman_Grid
 IE Digital Code Challenge
 
+-----------
+
 Developer's Note:
 
 - The application code is written in JavaScript and HTML.
