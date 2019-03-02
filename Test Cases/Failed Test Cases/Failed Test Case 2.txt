@@ -1,0 +1,7 @@
+place 1,1,east
+
+MoVE
+
+RUN
+
+Report

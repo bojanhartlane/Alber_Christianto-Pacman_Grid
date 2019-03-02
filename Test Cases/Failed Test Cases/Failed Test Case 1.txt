@@ -1,0 +1,4 @@
+place 1,1,east
+Moved
+
+Report

@@ -1,0 +1,12 @@
+PlaCE 2,2,east
+
+MoVe
+MovE
+REpoRt
+
+MOVE
+rEPoRT
+LEFT
+
+MOVE
+REPORT

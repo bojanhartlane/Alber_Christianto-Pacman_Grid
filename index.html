@@ -19,23 +19,146 @@
   </div>
 </nav>
 
-<div class="container">
-  <div class="row">
-    <div class="form-group">
-		
-		<h3>Insert Commands Here:</h3>
-		<textarea class="form-control mb-3" rows="5" id="commands" placeholder="Your commands here"></textarea>
-		<button class="btn-lg btn-primary mb-3" type="submit" id="run" onclick="pacman_command()">Run</button>
-		
-		<h3>Result:</h3>
-		<textarea class="form-control mb-3" rows="5" id="result" placeholder="Result" disabled></textarea>
-		
-    </div>
-  </div><!-- row -->
-</div><!-- content container -->
+<section class="container mb-5 mt-2">
+	<div class="row">
+
+	<div class="container col-sm-6">
+	  <div class="row">
+		<div class="form-group">
+			
+			<h3>Insert Commands Here:</h3>
+			<textarea class="form-control mb-3" style="width: 65vh;" rows="5" id="commands" placeholder="Your commands here"></textarea>
+			<button class="btn-lg btn-primary mb-3" type="submit" id="run" onclick="pacman_command()">Run</button>
+			
+			<h3>Result:</h3>
+			<textarea class="form-control mb-3" style="width: 65vh;" rows="5" id="result" placeholder="Result" disabled></textarea>
+			
+		</div>
+	  </div><!-- row -->
+	</div><!-- content container -->
+
+	<div class="container col-sm-6 mb-3">
+	  <div class="row">
+		<div class="form-group">
+			
+			<h3>Instructions:</h3>
+			<ul class="list-group">
+				<li class="list-group-item rounded">
+					This is a simulation of Pacman moving on in a grid, of dimensions 5 units x 5 units.
+				</li>
+				<li class="list-group-item rounded">
+					Pacman is free to roam around the surface of the grid, but must be prevented from moving off the grid. Any movement that would result in Pacman moving off the grid must be prevented, however further valid movement commands must still be allowed.
+				</li>
+				<li class="list-group-item rounded">
+					User must enter their commands on the provided text area.
+				</li>
+				<li class="list-group-item rounded">
+					Acceptable commands for this application are:
+					<ul>
+						<li>PLACE X,Y,F</li>
+						<li>MOVE</li>
+						<li>LEFT</li>
+						<li>RIGHT</li>
+						<li>REPORT</li>
+					</ul>
+				</li>
+				<li class="list-group-item rounded">
+					The commands are not case-sensitive, but each command must be followed by a new line.
+					Empty lines will be ignored by the application. For example:<br><br>
+					This set of commands is acceptable:
+					<ul class="list-group">
+						<li class="list-group-item rounded">
+							place 1,2,NORTH<br><br>
+							MovE<br>
+							RIGHT<br><br>
+							place 2,7,EAST<br>
+							REPORT<br><br>
+							place 3,2,WEST<br><br><br>
+							MoVe<br>
+							REPORT
+						</li>
+					</ul><br>
+					This set of commands is not acceptable:
+					<ul class="list-group">
+						<li class="list-group-item rounded">
+							PLACE 1,2,EAST MOVE LEFT REPORT
+						</li>
+					</ul><br>
+				</li>
+				<li class="list-group-item rounded">
+					There should be only one command per line and it is not repeated. For example:
+					This set of commands is acceptable:
+					<ul class="list-group">
+						<li class="list-group-item rounded">
+							PLACE 1,1,EAST<br><br>
+							MOVE<br>
+							LEFT<br><br>
+							REPORT<br><br>
+							MOVE<br>
+							REPORT
+						</li>
+					</ul><br>
+					This set of commands is not acceptable:
+					<ul class="list-group">
+						<li class="list-group-item rounded">
+							PLACE 1,1,EAST<br><br>
+							MOVE MOVE MOVE<br>
+							LEFT<br><br>
+							REPORT REPORT<br><br>
+							RIGHT<br>
+							REPORT
+						</li>
+					</ul><br>
+				</li>
+				<li class="list-group-item rounded">
+					PLACE will put the Pacman on the grid in position X,Y and facing NORTH,SOUTH, EAST or WEST. Any other direction
+					will be ignored by the application. Player can choose any combination of X and Y from (0,0) to (4,4).
+					Any invalid PLACE command will be displayed as a warning by the application, but it will continue to readjusted
+					the sequence.
+				</li>
+				<li class="list-group-item rounded">
+					The origin (0,0) can be considered the SOUTH WEST most corner.
+				</li>
+				<li class="list-group-item rounded">
+					PLACE command can be called more than once. Pacman's position will be readjusted based on the new PLACE command.
+					For example, if Pacman's position is (2,4) facing NORTH and PLACE 1,1,WEST is called, Pacman's position will be
+					(1,1) facing WEST. All commands after that will be run based on Pacman's (1,1) facing WEST, not the older position.
+				</li>
+				<li class="list-group-item rounded">
+					The first valid command to Pacman is a PLACE command. After that, any sequence of commands may be issued, in any order, including another PLACE command. The application should ignore all commands in the sequence until a valid PLACE command has been executed.
+				</li>
+				<li class="list-group-item rounded">
+					MOVE will move Pacman one unit forward in the direction it is currently facing. For example, if Pacman's current
+					position is (1,2) facing EAST, MOVE command will move Pacman to (2,2) facing EAST.
+				</li>
+				<li class="list-group-item rounded">
+					LEFT and RIGHT will rotate Pacman 90 degrees in the specified direction without changing the position of Pacman.
+					For example, if Pacman is facing NORTH, LEFT command will change Pacman's facing direction to WEST. If Pacman is
+					facing EAST, RIGHT command will change Pacman's facing direction to SOUTH.
+				</li>
+				<li class="list-group-item rounded">
+					REPORT will display the current position and facing direction of Pacman. REPORT can be called more than once.
+				</li>
+				<li class="list-group-item rounded">
+					Pacman that is not on the grid can choose the ignore the MOVE, LEFT, RIGHT and REPORT commands.
+				</li>
+				<li class="list-group-item rounded">
+					Pacman must not move off the grid during movement. This also includes the initial placement of Pacman.
+				</li>
+				<li class="list-group-item rounded">
+					Any move that would cause Pacman to move off the grid will be ignored by the application.
+				</li>
+			</ul>
+			
+		</div>
+	  </div><!-- row -->
+	</div><!-- content container -->
+
+	</div>
+</section>
 
 <footer class="footer fixed-bottom bg-dark">
-  <div class="footer-copyright text-center text-light py-3">For IE Digital Code Challenge
+  <div class="footer-copyright text-center text-light">For IE Digital Code Challenge
     <p class="text-light">Created by: Alber Jonathan Christianto</p>
   </div>
 </footer>

@@ -1,0 +1,17 @@
+PLACE 1,2,NORTH
+
+    MOVE
+	
+MOVE      
+
+REPORT
+
+RIGHT
+
+MOVE
+
+REPORT
+
+RIGHT
+
+REPORT

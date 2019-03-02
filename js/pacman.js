@@ -86,12 +86,13 @@ function pacman_command() {
 		
 		if (!checkInput) {
 			if (command_individual[0] == "PLACE") {
-				result = "Command error at line " + (line+1) + ": Pacman must be placed within (0,0) to (4,4)" +
+				result += "PLACE command error at line " + (line+1) + ": Pacman must be placed within (0,0) to (4,4)" +
 						 " and Pacman must face NORTH, EAST, SOUTH, or WEST\n";
+				 checkInput = true;
 			} else {
 				result = "Command not recognised at line " + (line+1) + "\n";
-			}			
-			line = command_per_line.length;
+				line = command_per_line.length;
+			}
 		}
 	}	
 	document.getElementById("result").value = result;	

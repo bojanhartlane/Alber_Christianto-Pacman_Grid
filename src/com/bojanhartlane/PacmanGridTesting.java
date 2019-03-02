@@ -35,6 +35,8 @@ public class PacmanGridTesting {
 		txtInput.clear();
 		testSuccessfulCase9(txtInput, btnRun, txtResult);
 		txtInput.clear();
+		testSuccessfulCase10(txtInput, btnRun, txtResult);
+		txtInput.clear();
 		
 		// Run tests that should capture user input errors
 		testFailedTypo(txtInput, btnRun, txtResult);	
@@ -134,6 +136,17 @@ public class PacmanGridTesting {
 		System.out.println(txtResult.getAttribute("value"));
 	}
 	
+	// Test for successful case with invalid PLACE commands. The program will display a warning regarding
+	// the invalid commands, but it will continue to read the sequence and process any other valid commands
+	// after the first valid PLACE command, with the assumption that a valid PLACE command exists in the sequence
+	public static void testSuccessfulCase10(WebElement txtInput, WebElement btnRun, WebElement txtResult) {
+		txtInput.sendKeys("PLACE 7,2,EAST\n\nMOVE\n\nMOVE\n\nREPORT\n\nPLACE 1,2,EAST\n\nLEFT"
+							+ "\n\nMOVE\n\nREPORT\n\nLEFT\n\nREPORT");
+		btnRun.click();
+		System.out.println("Test Successful Case 10 Result:");
+		System.out.println(txtResult.getAttribute("value"));
+	}
+	
 	// Test for failed case with "MOVED" instead of "MOVE"
 	public static void testFailedTypo(WebElement txtInput, WebElement btnRun, WebElement txtResult) {
 		txtInput.sendKeys("place 1,1,east\n\nMoved\nReport");
@@ -176,7 +189,7 @@ public class PacmanGridTesting {
 	
 	// Test for failed case with non-numeric initial coordinate
 	public static void testFailedNonNumericCoordinate(WebElement txtInput, WebElement btnRun, WebElement txtResult) {
-		txtInput.sendKeys("place 5,a,south\nMove\nReport");
+		txtInput.sendKeys("place 1,a,south\nMove\nReport");
 		btnRun.click();
 		System.out.println("Test Failed Non-Numeric Coordinate Result:");
 		System.out.println(txtResult.getAttribute("value"));

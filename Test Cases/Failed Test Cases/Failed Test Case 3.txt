@@ -1,0 +1,3 @@
+place 1,1,west
+Move Move Move
+Report
